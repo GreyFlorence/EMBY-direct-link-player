@@ -5,6 +5,11 @@
 本次更新，新版本EMBY 4.6.7.0可用
 https://github.com/MediaBrowser/Emby.Releases/releases/tag/4.6.7.0
 
+# Fork更新
+1. 适配4.7.14.0版本
+2. 固定按钮生成顺序
+3. 适配按钮风格
+
 # 特点
 1. Rclone挂载网盘作为EMBY的片源仓库。
 2. 2. 同一个网盘搭建了列表程序（goindex，oneindex，onemanager）。 
