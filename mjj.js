@@ -28,8 +28,12 @@ var yulan = ""
 //////////////////////////////////////////////////////////////////////////
 
 
-//在时间内，重复调用Nplayer按钮函数
-var timer1 = setInterval("nplayerButton()", 1)
+//按顺序重复调用三个按钮
+var timer = setInterval(function() {
+    wangpanButton();
+    potplayerButton();
+    nplayerButton();
+}, 1);
 
 //Nplayer按钮。按钮
 function nplayerButton() {
@@ -42,7 +46,7 @@ function nplayerButton() {
             var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
             if(mainDetailButtons){
                 var html = mainDetailButtons.innerHTML;
-                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="nplayer" type="button" class="detailButton emby-button nplayer" onclick="nplayeropen()"> <div class="detailButton-content"> <i class="md-icon detailButton-icon"></i>  <div class="detailButton-text">Nplayer播放</div> </div> </button>`;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="nplayer" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked nplayer" onclick="nplayeropen()"> <div class="detailButton-content"> <i class="md-icon button-icon button-icon-left autortl"></i> <span class="playButtonText">nPlayer播放</span></button>`;
                 //按钮里面触发nplayeropen函数onclick="nplayeropen()"
             }
         }
@@ -55,50 +59,47 @@ function nplayeropen(){
     var mediaUrl = $("div.mediaSource .sectionTitle div")[0];
     //转换格式url
     var url = mediaUrl.innerHTML;
-    window.alert("获取路径" + url);
+    //window.alert("获取路径" + url);
     //echo 去掉路径的词头
     var oldurl0 = url.replace(embyUrl,"");
-    window.alert("路径去头" + oldurl0);
+    //window.alert("路径去头" + oldurl0);
     //第一次变化\换成/（emby搭在win主机的情况）oldurl0
     var oldurl1 = oldurl0.replaceAll("\\", "/");
-    window.alert("反斜杠变斜杠" + oldurl1);
+    //window.alert("反斜杠变斜杠" + oldurl1);
     //echo "替换冒号"."<br>".$oldurl2."<br>"."<br>";
     var oldurl2 = oldurl1.replaceAll(":","：");
-    window.alert("小冒号变大冒号" + oldurl2);
+    //window.alert("小冒号变大冒号" + oldurl2);
     //echo "替换问号"."<br>".$oldurl3."<br>"."<br>";
     var oldurl3 = oldurl2.replaceAll("?", "？");
-    window.alert("小问号变大问号" + oldurl3);
+    //window.alert("小问号变大问号" + oldurl3);
 
     //echo "替换&号"."<br>".$oldurl4."<br>"."<br>";
     var oldurl100 = oldurl3.replaceAll("&amp;", "%26");
-    window.alert("&变&" + oldurl100);
+    //window.alert("&变&" + oldurl100);
     
     //echo "装上新前缀，还原网盘直连"."<br>".$newurl."<br>"."<br>";
     var newurl = goindexUrl + oldurl100;
-    window.alert("前面加头" + newurl);
+    //window.alert("前面加头" + newurl);
 
     //判断是不是蓝光目录
     var leixing = $("div.mediaSource .sectionTitle div")[1];
 	var leixing1 = leixing.innerHTML
-    window.alert("类型里的内容" + leixing1)
+    //window.alert("类型里的内容" + leixing1)
     var leixing2=leixing1.indexOf("bluray");
-    window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
+    //window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
 	if (leixing2 == "-1" ){
         var ULTurl="nplayer-"+newurl;
-        window.alert("可以直接播放" + ULTurl);
+        //window.alert("可以直接播放" + ULTurl);
         window.open(ULTurl)
 	}
 	else{
         ULTurl = newurl;
-        window.alert("是蓝光目录，打开网盘" + ULTurl);
-        window.alert("本视频格式为蓝光原盘目录，无法直接播放。请打开文件目录后，手动进入/BDMV/STREAM/子文件夹内，选择视频文件播放");
+        //window.alert("是蓝光目录，打开网盘" + ULTurl);
+        //window.alert("本视频格式为蓝光原盘目录，无法直接播放。请打开文件目录后，手动进入/BDMV/STREAM/子文件夹内，选择视频文件播放");
 		window.open(ULTurl)
     }
 }
 
-
-//在时间内，重复调用potplayer按钮函数
-var timer2 = setInterval("potplayerButton()", 2)
 
 //potplayer按钮。按钮
 function potplayerButton() {
@@ -111,7 +112,7 @@ function potplayerButton() {
             var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
             if(mainDetailButtons){
                 var html = mainDetailButtons.innerHTML;
-                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="potplayer" type="button" class="detailButton emby-button potplayer" onclick="potplayeropen()"> <div class="detailButton-content"> <i class="md-icon detailButton-icon"></i>  <div class="detailButton-text">Potplayer播放</div> </div> </button>`;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="potplayer" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked potplayer" onclick="potplayeropen()"> <div class="detailButton-content"> <i class="md-icon button-icon button-icon-left autortl"></i>   <span class="playButtonText">PotPlayer播放</span></div> </button>`;
                 //按钮里面触发potplayeropen函数onclick="potplayeropen()"
             }
         }
@@ -124,50 +125,48 @@ function potplayeropen(){
     var mediaUrl =  $("div.mediaSource .sectionTitle div")[0];
     //转换格式url
     var url = mediaUrl.innerHTML;
-    window.alert("获取路径" + url);
+    //window.alert("获取路径" + url);
     //echo 去掉路径的词头
     var oldurl0 = url.replace(embyUrl,"");
-    window.alert("路径去头" + oldurl0);
+    //window.alert("路径去头" + oldurl0);
     //第一次变化\换成/（emby搭在win主机的情况）oldurl0
     var oldurl1 = oldurl0.replaceAll("\\", "/");
-    window.alert("反斜杠变斜杠" + oldurl1);
+    //window.alert("反斜杠变斜杠" + oldurl1);
     //echo "替换冒号"."<br>".$oldurl2."<br>"."<br>";
     var oldurl2 = oldurl1.replaceAll(":","：");
-    window.alert("小冒号变大冒号" + oldurl2);
+    //window.alert("小冒号变大冒号" + oldurl2);
     //echo "替换问号"."<br>".$oldurl3."<br>"."<br>";
     var oldurl3 = oldurl2.replaceAll("?", "？");
-    window.alert("小问号变大问号" + oldurl3);
+    //window.alert("小问号变大问号" + oldurl3);
 
     //echo "替换&号"."<br>".$oldurl4."<br>"."<br>";
     var oldurl100 = oldurl3.replaceAll("&amp;", "%26");
-    window.alert("&变&" + oldurl100);
+    //window.alert("&变&" + oldurl100);
     
     //echo "装上新前缀，还原网盘直连"."<br>".$newurl."<br>"."<br>";
     var newurl = goindexUrl + oldurl100;
-    window.alert("前面加头" + newurl);
+    //window.alert("前面加头" + newurl);
 
     //判断是不是蓝光目录
     var leixing = $("div.mediaSource .sectionTitle div")[1];
 	var leixing1 = leixing.innerHTML
-    window.alert("类型里的内容" + leixing1)
+    //window.alert("类型里的内容" + leixing1)
     var leixing2=leixing1.indexOf("bluray");
-    window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
+    //window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
 	if (leixing2 == "-1" ){
         var ULTurl="potplayer://"+newurl;
-        window.alert("可以直接播放" + ULTurl);
+        //window.alert("可以直接播放" + ULTurl);
         window.open(ULTurl)
 	}
 	else{
         ULTurl = newurl;
-        window.alert("是蓝光目录，打开网盘" + ULTurl);
-        window.alert("本视频格式为蓝光原盘目录，无法直接播放。请打开文件目录后，手动进入/BDMV/STREAM/子文件夹内，选择视频文件播放");
+        //window.alert("是蓝光目录，打开网盘" + ULTurl);
+        //window.alert("本视频格式为蓝光原盘目录，无法直接播放。请打开文件目录后，手动进入/BDMV/STREAM/子文件夹内，选择视频文件播放");
 		window.open(ULTurl)
     }
 }
 
 
-//在时间内，重复调用wangpan按钮函数
-var timer3 = setInterval("wangpanButton()", 3)
 
 //wangpan按钮。按钮
 function wangpanButton() {
@@ -180,7 +179,7 @@ function wangpanButton() {
             var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
             if(mainDetailButtons){
                 var html = mainDetailButtons.innerHTML;
-                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="wangpan" type="button" class="detailButton emby-button wangpan" onclick="wangpanopen()"> <div class="detailButton-content"> <i class="md-icon detailButton-icon"></i>  <div class="detailButton-text">打开网盘</div> </div> </button>`;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="wangpan" type="button" class="btnMoreCommands fab detailButton detailButton-autotext  emby-button wangpan" onclick="wangpanopen()"> <div class="detailButton-content"> <i class="md-icon detailButton-autotext-icon"></i>  <div class="detailButton-autotext-text secondaryText">打开网盘</div> </div> </button>`;
                 //按钮里面触发wangpanopen函数onclick="wangpanopen()"
             }
         }
@@ -193,43 +192,43 @@ function wangpanopen(){
     var mediaUrl =  $("div.mediaSource .sectionTitle div")[0];
     //转换格式url
     var url = mediaUrl.innerHTML;
-    window.alert("获取路径" + url);
+    //window.alert("获取路径" + url);
     //echo 去掉路径的词头
     var oldurl0 = url.replace(embyUrl,"");
-    window.alert("路径去头" + oldurl0);
+    //window.alert("路径去头" + oldurl0);
     //第一次变化\换成/（emby搭在win主机的情况）oldurl0
     var oldurl1 = oldurl0.replaceAll("\\", "/");
-    window.alert("反斜杠变斜杠" + oldurl1);
+    //window.alert("反斜杠变斜杠" + oldurl1);
     //echo "替换冒号"."<br>".$oldurl2."<br>"."<br>";
     var oldurl2 = oldurl1.replaceAll(":","：");
-    window.alert("小冒号变大冒号" + oldurl2);
+    //window.alert("小冒号变大冒号" + oldurl2);
     //echo "替换问号"."<br>".$oldurl3."<br>"."<br>";
     var oldurl3 = oldurl2.replaceAll("?", "？");
-    window.alert("小问号变大问号" + oldurl3);
+    //window.alert("小问号变大问号" + oldurl3);
 
     //echo "替换&号"."<br>".$oldurl4."<br>"."<br>";
     var oldurl100 = oldurl3.replaceAll("&amp;", "%26");
-    window.alert("&变&" + oldurl100);
+    //window.alert("&变&" + oldurl100);
     
     //echo "装上新前缀，还原网盘直连"."<br>".$newurl."<br>"."<br>";
     var newurl = goindexUrl + oldurl100;
-    window.alert("前面加头" + newurl);
+    //window.alert("前面加头" + newurl);
 
     //拼接potplayer头部，调用外部播放器
 
     var leixing = $("div.mediaSource .sectionTitle div")[1];
 	var leixing1 = leixing.innerHTML
-    window.alert("类型里的内容" + leixing1)
+    //window.alert("类型里的内容" + leixing1)
     var leixing2=leixing1.indexOf("bluray");
-    window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
+    //window.alert("在类型里搜索bluray，如果返回-1说明没找到" + leixing2)
 	if (leixing2 == "-1" ){
         var ULTurl=newurl + yulan;
-        window.alert("不是蓝光目录，后面加一个?预览，进入预览页面" + ULTurl);
+        //window.alert("不是蓝光目录，后面加一个?预览，进入预览页面" + ULTurl);
         window.open(ULTurl)
 	}
 	else{
         ULTurl = newurl;
-        window.alert("是蓝光目录，打开网盘" + ULTurl);
+        //window.alert("是蓝光目录，打开网盘" + ULTurl);
 		window.open(ULTurl)
     }
 }
