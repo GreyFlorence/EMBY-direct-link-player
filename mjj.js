@@ -179,7 +179,7 @@ function wangpanButton() {
             var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
             if(mainDetailButtons){
                 var html = mainDetailButtons.innerHTML;
-                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="wangpan" type="button" class="btnMoreCommands fab detailButton detailButton-autotext  emby-button wangpan" onclick="wangpanopen()"> <div class="detailButton-content"> <i class="md-icon detailButton-autotext-icon"></i>  <div class="detailButton-autotext-text secondaryText">打开网盘</div> </div> </button>`;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="wangpan" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked emby-button wangpan" onclick="wangpanopen()"> <div class="detailButton-content"><span class="playButtonText">打开网盘</span> </div> </button>`;
                 //按钮里面触发wangpanopen函数onclick="wangpanopen()"
             }
         }
