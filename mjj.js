@@ -267,12 +267,16 @@ function copyLinkToClipboard() {
     // 装上新前缀，还原网盘直连
     var newurl = goindexUrl + oldurl100;
 
-    // 复制链接到剪贴板
-    navigator.clipboard.writeText(newurl).then(function() {
-        console.log('Link copied to clipboard!');
-        //window.alert('Link copied to clipboard!');
-    }).catch(function(err) {
-        console.error('Could not copy text: ', err);
-        //window.alert('Could not copy text: ' + err);
-    });
+    // 创建一个临时的textarea元素来存储要复制的文本
+    var tempInput = document.createElement("textarea");
+    tempInput.style.position = "fixed";
+    tempInput.style.opacity = "0";
+    tempInput.value = newurl;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // 对移动设备的选择范围
+	document.execCommand('copy'); //执行复制
+	
+    // 移除临时元素
+    document.body.removeChild(tempInput);
 }
