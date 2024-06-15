@@ -9,6 +9,7 @@ https://github.com/MediaBrowser/Emby.Releases/releases/tag/4.6.7.0
 1. 适配4.7.14.0版本
 2. 固定按钮生成顺序
 3. 适配按钮风格
+4.增加复制直链到剪贴板按钮
 
 # 特点
 1. Rclone挂载网盘作为EMBY的片源仓库。
