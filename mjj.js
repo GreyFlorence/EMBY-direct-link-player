@@ -10,29 +10,29 @@
 // <script type="text/javascript" src="./mjj.js"></script>
 
 
-// 要改的地方还挺多的，默认保留了调试弹窗。成功以后自行杠掉window.alert()
+// 要改的地方还挺多的，默认保留了调试弹窗。成功以后自行杠掉//window.alert()
 // 替换你的emby地址头部（和域名是有区别的，根据自己的结构，看情况情况加路径）
 // windows目录的斜杠\要换成\\,正则
-var embyUrl = "/rclone";
+var embyUrl = "/GreyOnedrive";
 // 替换你的goindex地址头部（和域名是有区别的，根据自己的目录结构，看情况加路径）
-var goindexUrl = "https://pan.mjj.com";
+var goindexUrl = "https://one.flor.pp.ua/Public";
 
 //预览【goindex是?a】【oneindex是?s】【onemanager是?preview】自己选。默认没有，非蓝光目录，打开网盘会直接下载文件。
-var yulan = ""
+var yulan = "?preview"
 //var yulan = "?s"
 //var yulan = "?a"
 //var yulan = "?preview"
 
 //////////////////////////////////////////////////////////////////////////
-//////以下的代码基本不用动了，等调试成功，注释掉window.alert()就好了////////////
+//////以下的代码基本不用动了，等调试成功，注释掉//window.alert()就好了////////////
 //////////////////////////////////////////////////////////////////////////
-
 
 //按顺序重复调用三个按钮
 var timer = setInterval(function() {
     wangpanButton();
     potplayerButton();
     nplayerButton();
+	copyLinkButton(); 
 }, 1);
 
 //Nplayer按钮。按钮
@@ -112,7 +112,7 @@ function potplayerButton() {
             var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
             if(mainDetailButtons){
                 var html = mainDetailButtons.innerHTML;
-                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="potplayer" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked potplayer" onclick="potplayeropen()"> <div class="detailButton-content"> <i class="md-icon button-icon button-icon-left autortl"></i>   <span class="playButtonText">PotPlayer播放</span></div> </button>`;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="potplayer" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked potplayer" onclick="potplayeropen()"> <div class="detailButton-content"> <i class="md-icon button-icon button-icon-left autortl"></i> <span class="playButtonText">PotPlayer播放</span></div> </button>`;
                 //按钮里面触发potplayeropen函数onclick="potplayeropen()"
             }
         }
@@ -231,4 +231,48 @@ function wangpanopen(){
         //window.alert("是蓝光目录，打开网盘" + ULTurl);
 		window.open(ULTurl)
     }
+}
+
+//copyLink按钮。按钮
+function copyLinkButton() {
+    var showornot = $("div.mediaSource .sectionTitle div")[1];
+    if (showornot) {
+        var copyLink = $("div[is='emby-scroller']:not(.hide) .copyLink")[0];
+        if (!copyLink) {
+            var mainDetailButtons = $("div[is='emby-scroller']:not(.hide) .mainDetailButtons")[0];
+            if (mainDetailButtons) {
+                var html = mainDetailButtons.innerHTML;
+                mainDetailButtons.innerHTML = `${html}<button is="emby-button" id="copyLink" type="button" class="btnPlay btnMainPlay raised detailButton emby-button detailButton-primary detailButton-stacked copyLink" onclick="copyLinkToClipboard()"> <div class="detailButton-content"><span class="playButtonText">复制直链</span> </div> </button>`;
+            }
+        }
+    }
+}
+
+//copyLink功能。功能
+function copyLinkToClipboard() {
+    // 获取emby路径mediaUrl
+    var mediaUrl = $("div.mediaSource .sectionTitle div")[0];
+    // 转换格式url
+    var url = mediaUrl.innerHTML;
+    // 去掉路径的词头
+    var oldurl0 = url.replace(embyUrl, "");
+    // 第一次变化\换成/（emby搭在win主机的情况）
+    var oldurl1 = oldurl0.replaceAll("\\", "/");
+    // 替换冒号
+    var oldurl2 = oldurl1.replaceAll(":", "：");
+    // 替换问号
+    var oldurl3 = oldurl2.replaceAll("?", "？");
+    // 替换&号
+    var oldurl100 = oldurl3.replaceAll("&amp;", "%26");
+    // 装上新前缀，还原网盘直连
+    var newurl = goindexUrl + oldurl100;
+
+    // 复制链接到剪贴板
+    navigator.clipboard.writeText(newurl).then(function() {
+        console.log('Link copied to clipboard!');
+        //window.alert('Link copied to clipboard!');
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        //window.alert('Could not copy text: ' + err);
+    });
 }
